@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Local configs & secrets
+.env
+
+# Caches & models (huge)
+.cache/
+hf-cache/
+models/
+*.safetensors
+*.bin
+
+# OS / editor
+.DS_Store
+*.swp

@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  llm-router:
+    container_name: llm-router
+    build:
+      context: .
+      # These map to the ARGs in your Dockerfile.
+      args:
+        BASE_IMAGE: ${BASE_IMAGE}
+        EXTRA_PY_PKGS: ${EXTRA_PY_PKGS}
+    image: llm-router:custom
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-7000}:7000"
+    # GPU access (works on recent Docker + Compose)
+    gpus: all
+    # If your Compose doesn't support `gpus: all`, comment the line above and
+    # uncomment the block below instead:
+    # device_requests:
+    #   - driver: nvidia
+    #     count: all
+    #     capabilities: ["gpu"]
+    volumes:
+      # Hugging Face cache (host -> container)
+      - ./.cache/hf:/app/.cache/hf
+      # If you want pure local-only mode, also mount your model and set
+      # LOCAL_MODEL_DIR=/models/qwen in .env
+      # - /ABS/PATH/TO/Qwen2.5-Math-7B-Instruct:/models/qwen:ro
+    # Optional: always restart if it stops (good for servers)
+    restart: unless-stopped

@@ -1,0 +1,25 @@
+### 4. Update your requirements.txt:
+
+fastapi
+uvicorn[standard]
+httpx
+vllm
+transformers
+accelerate
+bitsandbytes
+torch
+huggingface-hub
+pydantic
+
+# command to run the server.
+# docker compose -f docker.compose.yaml up -d
+# docker compose -f docker.compose.micro.yaml down
+# docker ps
+
+
+# docker run --rm -it --gpus all \
+#   --env-file .env \
+#   -p 7000:7000 \
+#   -v "/ABS/PATH/TO/Qwen2.5-Math-7B-Instruct:/models/qwen:ro" \
+#   -v "$(pwd)/.cache/hf:/app/.cache/hf" \
+#   llm-router:custom
