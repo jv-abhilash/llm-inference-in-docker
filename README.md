@@ -7,13 +7,13 @@ Configuration is fully driven by `.env`, allowing you to switch CUDA, PyTorch, o
 
 ## 🚀 Features
 
-- ✅ GPU-enabled container (PyTorch + CUDA)  
-- ✅ `.env`-driven configuration for flexible runtime and build parameters  
-- ✅ Hugging Face cache mounting for fast re-runs  
-- ✅ Optional offline/local model loading  
-- ✅ Integrated health check endpoint (`/healthz`)  
-- ✅ Supports HF Transfer backend for fast downloads (`hf_transfer`)  
-- ✅ Easily portable to Docker Hub or any GPU machine
+- GPU-enabled container (PyTorch + CUDA)  
+- `.env`-driven configuration for flexible runtime and build parameters  
+- Hugging Face cache mounting for fast re-runs  
+- Optional offline/local model loading  
+- Integrated health check endpoint (`/healthz`)  
+- Supports HF Transfer backend for fast downloads (`hf_transfer`)  
+- Easily portable to Docker Hub or any GPU machine
 
 ---
 
@@ -161,8 +161,6 @@ services:
     gpus: all
     volumes:
       - ./.cache/hf:/app/.cache/hf
-      # Local-only mode (uncomment to use):
-      # - /ABS/PATH/TO/Qwen2.5-Math-7B-Instruct:/models/qwen:ro
     restart: unless-stopped
 ```
 
@@ -218,31 +216,6 @@ CMD ["/app/entrypoint.sh"]
 
 ---
 
-## 🧱 Building a Self-Contained Image (Model Included)
-
-> ⚠️ Not recommended — this makes your image **very large** (tens of GBs).
-
-If you want to include the model directly inside the Docker image:
-
-**1. Copy model folder in Dockerfile**
-```dockerfile
-COPY models/Qwen2.5-Math-7B-Instruct /models/qwen
-```
-
-**2. Set in `.env`**
-```env
-LOCAL_MODEL_DIR=/models/qwen
-```
-
-**3. Build**
-```bash
-docker compose build
-```
-
-Now, the container includes the full model.
-
----
-
 ## 🐳 Push to Docker Hub
 
 ### 1. Tag the image
@@ -270,4 +243,3 @@ docker system prune -a
 docker volume prune
 huggingface-cli scan-cache --dir .cache/hf
 ```
-
